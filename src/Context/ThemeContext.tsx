@@ -1,12 +1,14 @@
 import React, {createContext, useState, useContext, ReactNode} from 'react';
 import {DefaultTheme, DarkTheme, Theme} from '@react-navigation/native';
 import {Dimensions} from 'react-native';
+import {darkTheme, lightTheme} from '../Assets/Colors';
 
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
   width: number;
   height: number;
+  colors: typeof lightTheme;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -24,17 +26,18 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({children}) => {
-  const [theme, setTheme] = useState<Theme>(DefaultTheme);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const {width, height} = Dimensions.get('window');
 
+  const theme = isDarkTheme ? DarkTheme : DefaultTheme;
+  const colors = isDarkTheme ? darkTheme : lightTheme;
+
   const toggleTheme = () => {
-    setTheme(prevTheme =>
-      prevTheme === DefaultTheme ? DarkTheme : DefaultTheme,
-    );
+    setIsDarkTheme(prev => !prev);
   };
 
   return (
-    <ThemeContext.Provider value={{theme, toggleTheme, width, height}}>
+    <ThemeContext.Provider value={{theme, toggleTheme, colors, width, height}}>
       {children}
     </ThemeContext.Provider>
   );

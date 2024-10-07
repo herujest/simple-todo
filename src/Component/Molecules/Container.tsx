@@ -17,8 +17,7 @@ interface IContainer extends ViewProps {
   statusBar?: StatusBarProps;
 }
 const Container = ({children, statusBar, style}: IContainer) => {
-  const {theme, height} = useTheme();
-  console.log('theme', theme);
+  const {theme, colors, height} = useTheme();
 
   return (
     <>
@@ -29,7 +28,10 @@ const Container = ({children, statusBar, style}: IContainer) => {
       />
       <SafeAreaView
         style={[
-          {backgroundColor: statusBar?.backgroundColor || 'white', flex: 1},
+          {
+            backgroundColor: statusBar?.backgroundColor || colors.background1,
+            flex: 1,
+          },
         ]}>
         <View
           style={[
@@ -38,7 +40,7 @@ const Container = ({children, statusBar, style}: IContainer) => {
               flex: 1,
               flexDirection: 'column',
               height: height,
-              backgroundColor: 'white',
+              backgroundColor: colors.background1,
             },
           ]}>
           {children}

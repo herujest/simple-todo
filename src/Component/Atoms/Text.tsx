@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text as RNText, TextStyle, StyleSheet} from 'react-native';
+import {useTheme} from '../../Context/ThemeContext';
 
 interface TypographyProps {
   variant?:
@@ -108,8 +109,13 @@ const typographyStyles = StyleSheet.create({
 
 const Text: React.FC<TypographyProps> = React.memo(
   ({variant = 'bodyText1', style, children}) => {
+    const {colors} = useTheme();
+
     return (
-      <RNText style={[typographyStyles[variant], style]}>{children}</RNText>
+      <RNText
+        style={[typographyStyles[variant], {color: colors.basic5}, style]}>
+        {children}
+      </RNText>
     );
   },
 );
