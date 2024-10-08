@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {FlatList, Pressable, StyleSheet, View} from 'react-native';
-import {navigateBack} from '.';
+import {navigateAndReset, navigateBack} from '.';
 import Button from '../Component/Atoms/Buttons';
 import Icon, {IconName} from '../Component/Atoms/Icon';
 import Text from '../Component/Atoms/Text';
@@ -10,6 +10,7 @@ import GoalItem from '../Component/Organisms/Card/GoalItem';
 import EmptyView from '../Component/Organisms/EmptyView';
 import {useTheme} from '../Context/ThemeContext';
 import {uuidv4} from '../Utils/helpers';
+import {createActivityWithTasks} from '../Utils/api/activityApi';
 
 export type GoalDTO = {
   id: string;
@@ -141,7 +142,29 @@ const ActivityGoal = props => {
     </Container>
   );
 
-  function onSave() {}
+  async function onSave() {
+    try {
+      const response = await createActivityWithTasks({
+        activity: {
+          title: route.params.title,
+          description: route.params.description || '',
+        },
+        tasks: tempGoals.map(i => ({
+          title: i.title,
+          description: i.description,
+          due_date: i.due_date,
+          is_completed: i.is_completed,
+        })),
+      });
+
+      console.log('response', response);
+      if (response.success) {
+        navigateAndReset([{name: 'Tabs'}]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   function addNewGoal() {
     const modifyGoals = item => {
