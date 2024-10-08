@@ -16,6 +16,7 @@ import {navigationRef, RootStackParamList, Screens} from './Screens';
 import ActivityScreen from './Screens/ActivityScreen';
 import HomeScreen from './Screens/HomeScreen';
 import SettingsScreen from './Screens/SettingsScreen';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -138,22 +139,24 @@ function NavigationApp() {
   const {theme} = useTheme(); // Now we are calling useTheme within ThemeProvider context
 
   return (
-    <NavigationContainer theme={theme} ref={navigationRef}>
-      <Stack.Navigator>
-        <Stack.Group>
-          {Screens.map((i, idx): JSX.Element => {
-            return (
-              <Stack.Screen
-                key={`screens-${idx}`}
-                name={i.name}
-                component={i.component}
-                options={i.options}
-              />
-            );
-          })}
-        </Stack.Group>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <NavigationContainer theme={theme} ref={navigationRef}>
+        <Stack.Navigator>
+          <Stack.Group>
+            {Screens.map((i, idx): JSX.Element => {
+              return (
+                <Stack.Screen
+                  key={`screens-${idx}`}
+                  name={i.name}
+                  component={i.component}
+                  options={i.options}
+                />
+              );
+            })}
+          </Stack.Group>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
 

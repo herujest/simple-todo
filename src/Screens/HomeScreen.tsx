@@ -1,5 +1,16 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {FlatList, Pressable, StyleSheet, View} from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
+import Reanimated, {
+  SharedValue,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 import {navigate} from '.';
 import Button from '../Component/Atoms/Buttons';
 import Icon from '../Component/Atoms/Icon';
@@ -12,17 +23,46 @@ import HeaderBrand from '../Component/Organisms/Header/HeaderBrand';
 import {useTheme} from '../Context/ThemeContext';
 import {
   createTask,
+  deleteTask,
   getStandaloneTasksByDeviceId,
   updateTaskCompletion,
 } from '../Utils/api/taskApi';
 
-const RenderItem = ({item, index, toggleRadio}) => {
+function RightAction(
+  prog: SharedValue<number>,
+  drag: SharedValue<number>,
+  deleteAction: () => void,
+) {
+  const styleAnimation = useAnimatedStyle(() => {
+    return {
+      transform: [{translateX: drag.value + 50}],
+    };
+  });
+
   return (
-    <TaskItem
-      key={`home-item_${index}`}
-      item={item}
-      onToggleRadio={() => toggleRadio(item)}
-    />
+    <Reanimated.View style={styleAnimation}>
+      <TouchableOpacity onPress={deleteAction} style={styles.deleteButton}>
+        <Icon name="close" color="white" />
+      </TouchableOpacity>
+    </Reanimated.View>
+  );
+}
+
+const RenderItem = ({item, index, toggleRadio, onDelete}) => {
+  return (
+    <Swipeable
+      friction={2}
+      enableTrackpadTwoFingerGesture
+      rightThreshold={40}
+      renderRightActions={(prog, drag) =>
+        RightAction(prog, drag, () => onDelete(item))
+      }>
+      <TaskItem
+        key={`home-item_${index}`}
+        item={item}
+        onToggleRadio={() => toggleRadio(item)}
+      />
+    </Swipeable>
   );
 };
 
@@ -48,9 +88,19 @@ const HomeScreen = () => {
   }, []);
 
   const toggleRadio = item => {
-    console.log('pressed', item);
-
     updateTaskCompletion(item.id, !item.is_completed)
+      .then(response => {
+        if (response.success) {
+          fetchSingleTask();
+        }
+      })
+      .catch(error => {
+        console.error('Failed to update task:', error.message);
+      });
+  };
+
+  const _deleteTask = item => {
+    deleteTask(item.id)
       .then(response => {
         if (response.success) {
           fetchSingleTask();
@@ -87,7 +137,12 @@ const HomeScreen = () => {
           </View>
         }
         renderItem={({item, index}) => (
-          <RenderItem item={item} index={index} toggleRadio={toggleRadio} />
+          <RenderItem
+            item={item}
+            index={index}
+            toggleRadio={toggleRadio}
+            onDelete={_deleteTask}
+          />
         )}
       />
       <Popups ref={popupTask} />
@@ -152,6 +207,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  deleteButton: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 50,
+    height: 70,
+  },
+  rightAction: {width: 50, height: 50, backgroundColor: 'purple'},
 });
 
 export default HomeScreen;

@@ -97,8 +97,24 @@ export const updateTask = async (taskId: number, newName: string) => {
 };
 
 export const deleteTask = async (taskId: number) => {
-  const {data, error} = await supabase.from('tasks').delete().eq('id', taskId);
+  try {
+    const {data, error} = await supabase
+      .from('tasks')
+      .delete()
+      .eq('id', taskId);
 
-  if (error) throw new Error(error.message);
-  return data;
+    if (error) throw new Error(error.message);
+
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (error: any) {
+    console.error('Error deleting task:', error.message);
+
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
 };
