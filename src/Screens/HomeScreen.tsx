@@ -56,7 +56,7 @@ const HomeScreen = () => {
           />
         }
         ListHeaderComponent={
-          <View style={styles.addTaskBtn}>
+          <View style={[styles.addTaskBtn, {marginBottom: width * 0.05}]}>
             <Text variant="headline2">To-do list</Text>
             <Pressable onPress={openPopupTask} style={styles.addTaskBtn}>
               <Icon name="plus-circle" color={colors.color1} />

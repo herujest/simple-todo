@@ -82,6 +82,7 @@ export const getActivities = async () => {
             created_at,
             updated_at,
             user_device,
+            asset_icon_name,
             tasks (
               title,
               description,
@@ -104,6 +105,7 @@ export const getActivities = async () => {
         created_at: activity.created_at,
         updated_at: activity.updated_at,
         user_device: activity.user_device,
+        asset_icon_name: activity.asset_icon_name,
       },
       tasks: activity.tasks || [],
     }));
