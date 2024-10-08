@@ -1,22 +1,21 @@
-import * as React from 'react';
+import {
+  BottomTabNavigationEventMap,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 import {
   NavigationContainer,
   NavigationHelpers,
   ParamListBase,
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {RootStackParamList, Screens} from './Screens';
-import {ThemeProvider, useTheme} from './Context/ThemeContext';
-import {
-  BottomTabNavigationEventMap,
-  createBottomTabNavigator,
-} from '@react-navigation/bottom-tabs';
-import HomeScreen from './Screens/HomeScreen';
-import ActivityScreen from './Screens/ActivityScreen';
-import SettingsScreen from './Screens/SettingsScreen';
-import {SafeAreaView, TouchableOpacity, View} from 'react-native';
-import Text from './Component/Atoms/Text';
+import * as React from 'react';
+import {TouchableOpacity, View} from 'react-native';
 import Icon, {IconName} from './Component/Atoms/Icon';
+import {ThemeProvider, useTheme} from './Context/ThemeContext';
+import {navigationRef, RootStackParamList, Screens} from './Screens';
+import ActivityScreen from './Screens/ActivityScreen';
+import HomeScreen from './Screens/HomeScreen';
+import SettingsScreen from './Screens/SettingsScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -139,7 +138,7 @@ function NavigationApp() {
   const {theme} = useTheme(); // Now we are calling useTheme within ThemeProvider context
 
   return (
-    <NavigationContainer theme={theme}>
+    <NavigationContainer theme={theme} ref={navigationRef}>
       <Stack.Navigator>
         <Stack.Group>
           {Screens.map((i, idx): JSX.Element => {

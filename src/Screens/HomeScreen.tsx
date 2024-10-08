@@ -7,13 +7,10 @@ import HeaderBrand from '../Component/Organisms/Header/HeaderBrand';
 import {useTheme} from '../Context/ThemeContext';
 import EmptyView from '../Component/Organisms/EmptyView';
 import Icon from '../Component/Atoms/Icon';
+import ActivityItem from '../Component/Organisms/Card/ActivityItem';
 
 const RenderItem = ({item, index}) => {
-  return (
-    <View key={`task_item-${index}`}>
-      <Text>item</Text>
-    </View>
-  );
+  return <ActivityItem key={`home-item_${index}`} item={item} />;
 };
 
 const HomeScreen = () => {
