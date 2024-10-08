@@ -1,27 +1,49 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {FlatList, Pressable, StyleSheet, View} from 'react-native';
 import {navigateBack} from '.';
 import Button from '../Component/Atoms/Buttons';
-import Icon from '../Component/Atoms/Icon';
+import Icon, {IconName} from '../Component/Atoms/Icon';
 import Text from '../Component/Atoms/Text';
 import Container from '../Component/Molecules/Container';
-import ActivityItem from '../Component/Organisms/Card/ActivityItem';
+import Popups, {InputGoalPopup} from '../Component/Molecules/Popups';
+import GoalItem from '../Component/Organisms/Card/GoalItem';
 import EmptyView from '../Component/Organisms/EmptyView';
 import {useTheme} from '../Context/ThemeContext';
+import {uuidv4} from '../Utils/helpers';
 
-type GoalDTO = {
+export type GoalDTO = {
+  id: string;
   title: string;
   description: string;
   due_date: string;
   is_completed: boolean;
 };
 
-const RenderItem = ({item, index}: {item: any; index: number}) => {
-  return <ActivityItem key={`goal-item_${index}`} item={item} editMode />;
+const RenderItem = ({
+  item,
+  index,
+  defaultIco,
+  onPressEdit,
+}: {
+  item: GoalDTO;
+  index: number;
+  defaultIco: IconName;
+  onPressEdit?: () => void;
+}) => {
+  return (
+    <GoalItem
+      key={`goal-item_${index}`}
+      item={item}
+      editMode
+      defaultIco={defaultIco}
+      onPressEdit={onPressEdit}
+    />
+  );
 };
 
 const ActivityGoal = props => {
   const {route} = props;
+  const addGoalPopup = useRef<any>();
   const {width, colors} = useTheme();
   const [tempGoals, setTempGoals] = useState<GoalDTO[]>([]);
 
@@ -68,11 +90,11 @@ const ActivityGoal = props => {
                 </Text>
               ) : null}
             </View>
-            <View style={[styles.addTaskBtn, {marginTop: width * 0.03}]}>
+            <View style={[styles.addTaskBtn, {marginVertical: width * 0.03}]}>
               <Text variant="headline3" style={{color: colors.basic4}}>
                 Your goals
               </Text>
-              <Pressable onPress={addGoal} style={styles.addTaskBtn}>
+              <Pressable onPress={addNewGoal} style={styles.addTaskBtn}>
                 <Icon name="plus-circle" color={colors.color1} />
                 <Text style={{color: colors.color1, marginLeft: width * 0.03}}>
                   Add Goal
@@ -82,7 +104,26 @@ const ActivityGoal = props => {
           </View>
         }
         data={tempGoals}
-        renderItem={RenderItem}
+        renderItem={({item, index}: {item: GoalDTO; index: number}) => {
+          return (
+            <RenderItem
+              item={item}
+              index={index}
+              defaultIco={route?.params?.activeType?.iconName}
+              onPressEdit={() =>
+                editGoal(
+                  {
+                    title: item.title,
+                    desc: item.description,
+                    dueDate: item.due_date,
+                    isComplete: item.is_completed,
+                  },
+                  item.id,
+                )
+              }
+            />
+          );
+        }}
         ListEmptyComponent={
           <EmptyView
             imageSource={require('../Assets/Images/yoga.png')}
@@ -96,12 +137,53 @@ const ActivityGoal = props => {
         onPress={onSave}
         disabled={!tempGoals.length}
       />
+      <Popups ref={addGoalPopup} />
     </Container>
   );
 
   function onSave() {}
 
-  function addGoal() {}
+  function addNewGoal() {
+    const modifyGoals = item => {
+      addGoalPopup.current._closeModal();
+      setTimeout(() => {
+        setTempGoals(prev => [...prev, {...item, id: uuidv4()}]);
+      }, 350);
+    };
+    addGoalPopup.current._showModal({
+      children: <InputGoalPopup onSave={modifyGoals} />,
+    });
+  }
+
+  function editGoal(initialValue: any, goalId: string) {
+    const modifyGoals = updatedGoal => {
+      addGoalPopup.current._closeModal();
+      setTimeout(() => {
+        setTempGoals(prevGoals =>
+          prevGoals.map(goal =>
+            goal.id === goalId ? {...goal, ...updatedGoal} : goal,
+          ),
+        );
+      }, 350);
+    };
+
+    const deleteGoal = () => {
+      addGoalPopup.current._closeModal();
+      setTimeout(() => {
+        setTempGoals(prevGoals => prevGoals.filter(goal => goal.id !== goalId));
+      }, 350);
+    };
+
+    addGoalPopup.current._showModal({
+      children: (
+        <InputGoalPopup
+          onSave={modifyGoals}
+          initialValues={initialValue}
+          onDelete={deleteGoal}
+        />
+      ),
+    });
+  }
 };
 
 const styles = StyleSheet.create({

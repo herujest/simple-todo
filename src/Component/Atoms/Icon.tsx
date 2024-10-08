@@ -32,6 +32,7 @@ export type IconName =
   | 'arrow-down2'
   | 'arrow-down-left2'
   | 'arrow-left2'
+  | 'radio-checked'
   | 'radio-unchecked'
   | 'plus-circle'
   | 'clock'

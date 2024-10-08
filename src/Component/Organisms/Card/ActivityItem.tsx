@@ -10,6 +10,8 @@ const ActivityItem = ({
   expanded?: boolean;
   editMode?: boolean;
 }) => {
+  console.log('item', item);
+
   return (
     <View>
       <Text>ActivityItem</Text>

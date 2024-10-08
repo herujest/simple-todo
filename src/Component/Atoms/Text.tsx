@@ -114,12 +114,13 @@ const typographyStyles = StyleSheet.create({
 });
 
 const Text: React.FC<TypographyProps> = React.memo(
-  ({variant = 'bodyText1', style, children}) => {
+  ({variant = 'bodyText1', style, children, ...props}) => {
     const {colors} = useTheme();
 
     return (
       <RNText
-        style={[typographyStyles[variant], {color: colors.basic5}, style]}>
+        style={[typographyStyles[variant], {color: colors.basic5}, style]}
+        {...props}>
         {children}
       </RNText>
     );

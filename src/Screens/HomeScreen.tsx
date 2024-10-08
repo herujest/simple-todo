@@ -89,7 +89,7 @@ const HomeScreen = () => {
               popupTask.current?._closeModal();
               setTimeout(() => {
                 navigate('AddActivity');
-              }, 350);
+              }, 450);
             }}
           />
           <Button type="secondary" title="Single Task" />
