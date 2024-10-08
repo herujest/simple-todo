@@ -5,27 +5,37 @@ import Button from '../Component/Atoms/Buttons';
 import Icon from '../Component/Atoms/Icon';
 import Text from '../Component/Atoms/Text';
 import Container from '../Component/Molecules/Container';
-import Popups from '../Component/Molecules/Popups';
-import ActivityItem from '../Component/Organisms/Card/ActivityItem';
+import Popups, {InputGoalPopup} from '../Component/Molecules/Popups';
+import TaskItem from '../Component/Organisms/Card/TaskItem';
 import EmptyView from '../Component/Organisms/EmptyView';
 import HeaderBrand from '../Component/Organisms/Header/HeaderBrand';
 import {useTheme} from '../Context/ThemeContext';
-import {getActivities} from '../Utils/api/activityApi';
+import {
+  createTask,
+  getStandaloneTasksByDeviceId,
+  updateTaskCompletion,
+} from '../Utils/api/taskApi';
 
-const RenderItem = ({item, index}) => {
-  return <ActivityItem key={`home-item_${index}`} item={item} />;
+const RenderItem = ({item, index, toggleRadio}) => {
+  return (
+    <TaskItem
+      key={`home-item_${index}`}
+      item={item}
+      onToggleRadio={() => toggleRadio(item)}
+    />
+  );
 };
 
 const HomeScreen = () => {
   const {colors, width} = useTheme();
-  const [activities, setActivities] = useState<any[]>([]);
+  const [listTasks, setListTasks] = useState<any[]>([]);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const popupTask = useRef<any>();
 
-  const fetchActivities = async () => {
+  const fetchSingleTask = async () => {
     try {
-      const data = await getActivities();
-      setActivities(data);
+      const data = await getStandaloneTasksByDeviceId();
+      setListTasks(data);
       setIsRefreshing(false);
     } catch (error) {
       console.error('Error fetching activities:', error);
@@ -34,18 +44,28 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    fetchActivities();
+    fetchSingleTask();
   }, []);
 
-  useEffect(() => {
-    console.log('activities', activities);
-  }, [activities]);
+  const toggleRadio = item => {
+    console.log('pressed', item);
+
+    updateTaskCompletion(item.id, !item.is_completed)
+      .then(response => {
+        if (response.success) {
+          fetchSingleTask();
+        }
+      })
+      .catch(error => {
+        console.error('Failed to update task:', error.message);
+      });
+  };
 
   return (
     <Container>
       <HeaderBrand />
       <FlatList
-        data={activities}
+        data={listTasks}
         onRefresh={onRefresh}
         refreshing={isRefreshing}
         style={{padding: width * 0.04}}
@@ -66,7 +86,9 @@ const HomeScreen = () => {
             </Pressable>
           </View>
         }
-        renderItem={RenderItem}
+        renderItem={({item, index}) => (
+          <RenderItem item={item} index={index} toggleRadio={toggleRadio} />
+        )}
       />
       <Popups ref={popupTask} />
     </Container>
@@ -74,7 +96,7 @@ const HomeScreen = () => {
 
   function onRefresh() {
     setIsRefreshing(true);
-    fetchActivities();
+    fetchSingleTask();
   }
 
   function openPopupTask() {
@@ -92,9 +114,34 @@ const HomeScreen = () => {
               }, 450);
             }}
           />
-          <Button type="secondary" title="Single Task" />
+          <Button type="secondary" title="Single Task" onPress={addNewGoal} />
         </View>
       ),
+    });
+  }
+
+  async function onSubmit(payload) {
+    try {
+      const response = await createTask(payload);
+
+      if (response.success) {
+        onRefresh();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function addNewGoal() {
+    const submitNewTask = item => {
+      popupTask.current._closeModal();
+      setTimeout(() => {
+        console.log('iatem', item);
+        onSubmit(item);
+      }, 500);
+    };
+    popupTask.current._showModal({
+      children: <InputGoalPopup onSave={submitNewTask} />,
     });
   }
 };

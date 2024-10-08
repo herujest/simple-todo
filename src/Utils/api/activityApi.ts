@@ -20,7 +20,6 @@ export const createActivityWithTasks = async (payload: {
   const user_device = `${uniqueId}_${deviceId}`;
 
   try {
-    // Step 1: Insert the activity into the 'activities' table
     const {data: activityData, error: activityError} = await supabase
       .from('activities')
       .insert([
@@ -33,7 +32,7 @@ export const createActivityWithTasks = async (payload: {
           user_device: user_device,
         },
       ])
-      .select('id') // Select the ID of the inserted activity
+      .select('id')
       .single();
 
     if (activityError)
@@ -41,16 +40,15 @@ export const createActivityWithTasks = async (payload: {
 
     const activityId = activityData.id;
 
-    // Step 2: Insert tasks into the 'tasks' table, associating them with the created activity
     const taskPayload = tasks.map(task => ({
       title: task.title,
       description: task.description,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-      due_date: task.due_date || null, // Allow due date to be null
+      due_date: task.due_date || null,
       is_completed: task.is_completed,
       user_device: user_device,
-      activity_id: activityId, // Associate task with activity
+      activity_id: activityId,
     }));
 
     const {error: taskError} = await supabase.from('tasks').insert(taskPayload);
@@ -94,7 +92,7 @@ export const getActivities = async () => {
           `,
       )
       .eq('user_device', deviceUniqueId)
-      .order('updated_at', {ascending: false}); // Sort by updated_at in descending order
+      .order('updated_at', {ascending: false});
 
     if (error) throw new Error(`Error fetching activities: ${error.message}`);
 
@@ -117,7 +115,6 @@ export const getActivities = async () => {
   }
 };
 
-// Update an activity
 export const updateActivity = async (activityId: number, newName: string) => {
   const {data, error} = await supabase
     .from('activities')
@@ -128,7 +125,6 @@ export const updateActivity = async (activityId: number, newName: string) => {
   return data;
 };
 
-// Delete an activity
 export const deleteActivity = async (activityId: number) => {
   const {data, error} = await supabase
     .from('activities')
