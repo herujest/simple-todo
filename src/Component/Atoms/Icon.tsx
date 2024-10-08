@@ -35,7 +35,8 @@ export type IconName =
   | 'radio-unchecked'
   | 'plus-circle'
   | 'clock'
-  | 'settings';
+  | 'settings'
+  | 'close';
 
 export interface IIcon extends Omit<SvgIconProps, 'iconSet' | 'name' | 'size'> {
   name: IconName;

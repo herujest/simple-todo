@@ -1,14 +1,16 @@
+import React, {useEffect, useRef, useState} from 'react';
 import {FlatList, Pressable, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import Container from '../Component/Molecules/Container';
+import Button from '../Component/Atoms/Buttons';
+import Icon from '../Component/Atoms/Icon';
 import Text from '../Component/Atoms/Text';
-import Content from '../Component/Molecules/Content';
+import Container from '../Component/Molecules/Container';
+import Popups from '../Component/Molecules/Popups';
+import ActivityItem from '../Component/Organisms/Card/ActivityItem';
+import EmptyView from '../Component/Organisms/EmptyView';
 import HeaderBrand from '../Component/Organisms/Header/HeaderBrand';
 import {useTheme} from '../Context/ThemeContext';
-import EmptyView from '../Component/Organisms/EmptyView';
-import Icon from '../Component/Atoms/Icon';
-import ActivityItem from '../Component/Organisms/Card/ActivityItem';
 import {getActivities} from '../Utils/api/activityApi';
+import {navigate} from '.';
 
 const RenderItem = ({item, index}) => {
   return <ActivityItem key={`home-item_${index}`} item={item} />;
@@ -18,6 +20,7 @@ const HomeScreen = () => {
   const {colors, width} = useTheme();
   const [activities, setActivities] = useState<any[]>([]);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const popupTask = useRef<any>();
 
   const fetchActivities = async () => {
     try {
@@ -61,6 +64,7 @@ const HomeScreen = () => {
             }}>
             <Text variant="headline2">To-do list</Text>
             <Pressable
+              onPress={openPopupTask}
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -75,12 +79,32 @@ const HomeScreen = () => {
         }
         renderItem={RenderItem}
       />
+      <Popups ref={popupTask} />
     </Container>
   );
 
   function onRefresh() {
     setIsRefreshing(true);
     fetchActivities();
+  }
+
+  function openPopupTask() {
+    popupTask.current._showModal({
+      children: (
+        <View>
+          <Text variant="headline2">Choose task category</Text>
+          <Button
+            type="secondary"
+            title="Activity"
+            onPress={() => {
+              popupTask.current?._closeModal();
+              navigate('AddActivity');
+            }}
+          />
+          <Button type="secondary" title="Single Task" />
+        </View>
+      ),
+    });
   }
 };
 

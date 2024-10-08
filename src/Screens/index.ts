@@ -6,6 +6,8 @@ import {
   createNavigationContainerRef,
   StackActions,
 } from '@react-navigation/native';
+import AddActivity from './AddActivity';
+import AddSingleTask from './AddSingleTask';
 
 interface INavigationOption {
   name: string;
@@ -29,6 +31,20 @@ export const Screens: Array<INavigationOption> = [
       freezeOnBlur: true,
     },
   },
+  {
+    name: 'AddActivity',
+    component: AddActivity,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'AddSingleTask',
+    component: AddSingleTask,
+    options: {
+      headerShown: false,
+    },
+  },
 ];
 
 export type RootStackParamList = {
@@ -37,6 +53,8 @@ export type RootStackParamList = {
   HomeScreen: undefined;
   ActivityScreen: undefined;
   SettingsScreen: undefined;
+  AddActivity: undefined;
+  AddSingleTask: undefined;
 };
 
 export const navigationRef = createNavigationContainerRef<RootStackParamList>();
