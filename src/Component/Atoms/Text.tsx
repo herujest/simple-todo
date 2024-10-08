@@ -1,8 +1,14 @@
 import React from 'react';
-import {Text as RNText, TextStyle, StyleSheet} from 'react-native';
+import {
+  Text as RNText,
+  TextStyle,
+  StyleSheet,
+  TextProps,
+  StyleProp,
+} from 'react-native';
 import {useTheme} from '../../Context/ThemeContext';
 
-interface TypographyProps {
+interface TypographyProps extends TextProps {
   variant?:
     | 'headline1'
     | 'headline2'
@@ -16,7 +22,7 @@ interface TypographyProps {
     | 'buttonText1'
     | 'buttonText2'
     | 'percentages';
-  style?: TextStyle;
+  style?: StyleProp<TextStyle>;
   children: React.ReactNode;
 }
 
