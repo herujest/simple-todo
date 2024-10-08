@@ -5,6 +5,7 @@ export const createActivityWithTasks = async (payload: {
   activity: {
     title: string;
     description: string;
+    asset_icon_name: string;
   };
   tasks: {
     title: string;
@@ -26,6 +27,7 @@ export const createActivityWithTasks = async (payload: {
         {
           title: activity.title,
           description: activity.description,
+          asset_icon_name: activity.asset_icon_name,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
           user_device: user_device,
@@ -75,22 +77,23 @@ export const getActivities = async () => {
       .from('activities')
       .select(
         `
-          title,
-          description,
-          created_at,
-          updated_at,
-          user_device,
-          tasks (
             title,
             description,
             created_at,
             updated_at,
-            due_date,
-            is_completed
-          )
-        `,
+            user_device,
+            tasks (
+              title,
+              description,
+              created_at,
+              updated_at,
+              due_date,
+              is_completed
+            )
+          `,
       )
-      .eq('user_device', deviceUniqueId);
+      .eq('user_device', deviceUniqueId)
+      .order('updated_at', {ascending: false}); // Sort by updated_at in descending order
 
     if (error) throw new Error(`Error fetching activities: ${error.message}`);
 

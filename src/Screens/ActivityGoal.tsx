@@ -148,6 +148,7 @@ const ActivityGoal = props => {
         activity: {
           title: route.params.title,
           description: route.params.description || '',
+          asset_icon_name: route.params?.activeType?.iconName || 'todo-done',
         },
         tasks: tempGoals.map(i => ({
           title: i.title,
