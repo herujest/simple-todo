@@ -36,7 +36,7 @@ const WelcomePage = props => {
       <Button
         type="primary"
         title="Get Started"
-        onPress={() => navigation.navigate('HomeScreen')}
+        onPress={() => navigation.replace('Tabs')}
       />
       <Text variant="bodyText3" style={{textAlign: 'center'}}>
         Your tasks will be saved automatically!

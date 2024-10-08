@@ -1,5 +1,5 @@
 import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
-import HomeScreen from './HomeScreen';
+import {TabNavigator} from '../App';
 import WelcomePage from './WelcomePage';
 
 interface INavigationOption {
@@ -17,10 +17,19 @@ export const Screens: Array<INavigationOption> = [
     },
   },
   {
-    name: 'HomeScreen',
-    component: HomeScreen,
+    name: 'Tabs',
+    component: TabNavigator,
     options: {
       headerShown: false,
+      freezeOnBlur: true,
     },
   },
 ];
+
+export type RootStackParamList = {
+  WelcomePage: undefined;
+  Tabs: undefined;
+  HomeScreen: undefined;
+  ActivityScreen: undefined;
+  SettingsScreen: undefined;
+};
