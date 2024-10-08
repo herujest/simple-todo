@@ -5,7 +5,7 @@ import {GoalDTO} from '../../../Screens/ActivityGoal';
 import Icon from '../../Atoms/Icon';
 import Text from '../../Atoms/Text';
 
-type ActivityDTO = {
+export type ActivitiesDTO = {
   activities: {
     title: string;
     description: string;
@@ -22,7 +22,7 @@ const ActivityItem = ({
   editMode,
   onPressEdit,
 }: {
-  item: ActivityDTO;
+  item: ActivitiesDTO;
   editMode?: boolean;
   onPressEdit?: () => void;
 }) => {

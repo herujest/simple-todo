@@ -158,9 +158,8 @@ const ActivityGoal = props => {
         })),
       });
 
-      console.log('response', response);
       if (response.success) {
-        navigateAndReset([{name: 'Tabs'}]);
+        navigateAndReset([{name: 'Tabs', params: {screen: 'ActivityScreen'}}]);
       }
     } catch (error) {
       console.error(error);
