@@ -36,7 +36,14 @@ export type IconName =
   | 'plus-circle'
   | 'clock'
   | 'settings'
-  | 'close';
+  | 'close'
+  | 'work-case'
+  | 'todo-done'
+  | 'experiment'
+  | 'education-learning'
+  | 'travel-luggage'
+  | 'clean'
+  | 'exercise-health-fitness';
 
 export interface IIcon extends Omit<SvgIconProps, 'iconSet' | 'name' | 'size'> {
   name: IconName;

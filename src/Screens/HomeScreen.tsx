@@ -87,7 +87,9 @@ const HomeScreen = () => {
             title="Activity"
             onPress={() => {
               popupTask.current?._closeModal();
-              navigate('AddActivity');
+              setTimeout(() => {
+                navigate('AddActivity');
+              }, 350);
             }}
           />
           <Button type="secondary" title="Single Task" />
