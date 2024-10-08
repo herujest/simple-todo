@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   Text as RNText,
-  TextStyle,
+  StyleProp,
   StyleSheet,
   TextProps,
-  StyleProp,
+  TextStyle,
 } from 'react-native';
 import {useTheme} from '../../Context/ThemeContext';
 

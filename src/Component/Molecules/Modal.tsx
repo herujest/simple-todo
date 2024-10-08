@@ -46,6 +46,7 @@ const Modal = forwardRef(
       <RNModal
         {...props}
         propagateSwipe
+        // eslint-disable-next-line react-native/no-inline-styles
         style={{margin: 0}}
         swipeDirection={['down', 'left']}
         onBackButtonPress={hideModal}
@@ -55,11 +56,9 @@ const Modal = forwardRef(
         isVisible={modalData?.isVisible}>
         <View
           style={[
-            //   Layout.smallRound,
             {
               margin: width * 0.05,
               padding: width * 0.04,
-              backgroundColor: 'red',
             },
             containerStyle,
           ]}>

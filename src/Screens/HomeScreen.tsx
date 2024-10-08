@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {FlatList, Pressable, View} from 'react-native';
+import {FlatList, Pressable, StyleSheet, View} from 'react-native';
+import {navigate} from '.';
 import Button from '../Component/Atoms/Buttons';
 import Icon from '../Component/Atoms/Icon';
 import Text from '../Component/Atoms/Text';
@@ -10,7 +11,6 @@ import EmptyView from '../Component/Organisms/EmptyView';
 import HeaderBrand from '../Component/Organisms/Header/HeaderBrand';
 import {useTheme} from '../Context/ThemeContext';
 import {getActivities} from '../Utils/api/activityApi';
-import {navigate} from '.';
 
 const RenderItem = ({item, index}) => {
   return <ActivityItem key={`home-item_${index}`} item={item} />;
@@ -56,20 +56,9 @@ const HomeScreen = () => {
           />
         }
         ListHeaderComponent={
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
+          <View style={styles.addTaskBtn}>
             <Text variant="headline2">To-do list</Text>
-            <Pressable
-              onPress={openPopupTask}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
+            <Pressable onPress={openPopupTask} style={styles.addTaskBtn}>
               <Icon name="plus-circle" color={colors.color1} />
               <Text style={{color: colors.color1, marginLeft: width * 0.03}}>
                 Add Task
@@ -107,5 +96,13 @@ const HomeScreen = () => {
     });
   }
 };
+
+const styles = StyleSheet.create({
+  addTaskBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+});
 
 export default HomeScreen;

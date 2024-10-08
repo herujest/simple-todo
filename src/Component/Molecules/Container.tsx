@@ -1,9 +1,9 @@
 import React from 'react';
 import {
   SafeAreaView,
-  StatusBar,
   StatusBarProps,
   StyleProp,
+  StyleSheet,
   View,
   ViewProps,
   ViewStyle,
@@ -17,7 +17,7 @@ interface IContainer extends ViewProps {
   statusBar?: StatusBarProps;
 }
 const Container = ({children, statusBar, style}: IContainer) => {
-  const {theme, colors, height} = useTheme();
+  const {colors, height} = useTheme();
 
   return (
     <>
@@ -28,17 +28,16 @@ const Container = ({children, statusBar, style}: IContainer) => {
       />
       <SafeAreaView
         style={[
+          styles.container,
           {
             backgroundColor: statusBar?.backgroundColor || colors.background1,
-            flex: 1,
           },
         ]}>
         <View
           style={[
             style,
+            styles.containerBody,
             {
-              flex: 1,
-              flexDirection: 'column',
               height: height,
               backgroundColor: colors.background1,
             },
@@ -49,5 +48,15 @@ const Container = ({children, statusBar, style}: IContainer) => {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  containerBody: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+});
 
 export default Container;

@@ -1,13 +1,13 @@
-import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
-import {TabNavigator} from '../App';
-import WelcomePage from './WelcomePage';
 import {
   CommonActions,
   createNavigationContainerRef,
   StackActions,
 } from '@react-navigation/native';
+import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
+import {TabNavigator} from '../App';
 import AddActivity from './AddActivity';
 import AddSingleTask from './AddSingleTask';
+import WelcomePage from './WelcomePage';
 
 interface INavigationOption {
   name: string;
@@ -77,7 +77,7 @@ export function navigateAndReset(
     navigationRef.dispatch(
       CommonActions.reset({
         index,
-        routes, //TODO: check multiple navigation
+        routes,
       }),
     );
   }

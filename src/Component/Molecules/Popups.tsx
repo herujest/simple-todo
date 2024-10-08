@@ -5,7 +5,7 @@ import React, {
   useImperativeHandle,
   useRef,
 } from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useTheme} from '../../Context/ThemeContext';
 import Icon from '../Atoms/Icon';
 import Text from '../Atoms/Text';
@@ -34,7 +34,7 @@ const Popups = forwardRef(({}: {}, ref) => {
       body: (
         <>
           {modalDataConfig?.hideCloseBtn ? null : (
-            <View style={[{alignItems: 'flex-end'}]}>
+            <View style={styles.itemEnd}>
               <TouchableOpacity
                 onPress={_onClose}
                 style={{margin: width * 0.03}}>
@@ -44,9 +44,9 @@ const Popups = forwardRef(({}: {}, ref) => {
           )}
           <View
             style={[
+              styles.modalTitle,
               {
                 padding: width * 0.03,
-                borderRadius: 20,
                 backgroundColor: colors.background1,
               },
             ]}>
@@ -54,8 +54,8 @@ const Popups = forwardRef(({}: {}, ref) => {
               <Text
                 variant="headline2"
                 style={[
+                  styles.textCenter,
                   {
-                    textAlign: 'center',
                     marginVertical: width * 0.03,
                   },
                 ]}>
@@ -88,14 +88,22 @@ const Popups = forwardRef(({}: {}, ref) => {
       onSwipeComplete={undefined}
       swipeDirection={undefined}
       containerStyle={[
+        styles.modalTitle,
         {
-          borderRadius: 20,
           backgroundColor: colors.background1,
           borderColor: colors.background1,
         },
       ]}
     />
   );
+});
+
+const styles = StyleSheet.create({
+  itemEnd: {alignItems: 'flex-end'},
+  modalTitle: {
+    borderRadius: 20,
+  },
+  textCenter: {textAlign: 'center'},
 });
 
 export default memo(Popups);

@@ -1,5 +1,5 @@
 import React, {forwardRef} from 'react';
-import {StyleProp, View, ViewProps, ViewStyle, StyleSheet} from 'react-native';
+import {StyleProp, StyleSheet, View, ViewProps, ViewStyle} from 'react-native';
 import {useTheme} from '../../../Context/ThemeContext';
 
 interface IHeader extends ViewProps {

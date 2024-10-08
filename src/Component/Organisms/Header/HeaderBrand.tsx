@@ -1,14 +1,14 @@
 import React from 'react';
-import {Image, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {useTheme} from '../../../Context/ThemeContext';
-import HeaderWrapper from './HeaderWrapper';
 import Text from '../../Atoms/Text';
+import HeaderWrapper from './HeaderWrapper';
 
 const HeaderBrand = () => {
   const {width} = useTheme();
   return (
     <HeaderWrapper>
-      <View style={{flexDirection: 'row'}}>
+      <View style={styles.row}>
         <Image
           source={require('../../../Assets/Images/app-icon.png')}
           style={{
@@ -21,5 +21,9 @@ const HeaderBrand = () => {
     </HeaderWrapper>
   );
 };
+
+const styles = StyleSheet.create({
+  row: {flexDirection: 'row'},
+});
 
 export default HeaderBrand;

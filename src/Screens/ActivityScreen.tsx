@@ -8,7 +8,7 @@ import EmptyView from '../Component/Organisms/EmptyView';
 import HeaderTitle from '../Component/Organisms/Header/HeaderTitle';
 import {useTheme} from '../Context/ThemeContext';
 
-const RenderItem = ({item, index}) => {
+const RenderItem = ({item, index}: {item: any; index: number}) => {
   return <ActivityItem key={`home-item_${index}`} item={item} expanded />;
 };
 

@@ -1,10 +1,10 @@
-import {Image, StyleSheet, View} from 'react-native';
 import React from 'react';
+import {Image, StyleSheet, View} from 'react-native';
+import Button from '../Component/Atoms/Buttons';
 import Text from '../Component/Atoms/Text';
 import Container from '../Component/Molecules/Container';
 import Content from '../Component/Molecules/Content';
 import {useTheme} from '../Context/ThemeContext';
-import Button from '../Component/Atoms/Buttons';
 import {fetchOrCreateUser} from '../Utils/api/userApi';
 
 const WelcomePage = props => {
@@ -22,10 +22,10 @@ const WelcomePage = props => {
               height: width * 0.8,
             }}
           />
-          <Text variant="headline1" style={{textAlign: 'center'}}>
+          <Text variant="headline1" style={styles.textCenter}>
             Welcome to To-Do Mate
           </Text>
-          <Text variant="bodyText2" style={{textAlign: 'center'}}>
+          <Text variant="bodyText2" style={styles.textCenter}>
             Stay organized and boost your productivity with features like:
           </Text>
           <Text variant="bodyText1">
@@ -35,7 +35,7 @@ const WelcomePage = props => {
         </View>
       </Content>
       <Button type="primary" title="Get Started" onPress={getStarted} />
-      <Text variant="bodyText3" style={{textAlign: 'center'}}>
+      <Text variant="bodyText3" style={styles.textCenter}>
         Your tasks will be saved automatically!
       </Text>
     </Container>
@@ -47,11 +47,10 @@ const WelcomePage = props => {
       console.log('user', user);
 
       if (user) {
-        navigation.replace('Tabs'); // Navigate to the Tabs screen
+        navigation.replace('Tabs');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error in getStarted:', err.message);
-      // Handle the error (e.g., show an alert or message to the user)
     }
   }
 };
@@ -60,6 +59,9 @@ const styles = StyleSheet.create({
   body: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  textCenter: {
+    textAlign: 'center',
   },
 });
 

@@ -1,17 +1,18 @@
 import React, {memo} from 'react';
-import {Image, View} from 'react-native';
-import Text from '../Atoms/Text';
+import {Image, StyleSheet, View} from 'react-native';
 import {useTheme} from '../../Context/ThemeContext';
+import Text from '../Atoms/Text';
 
 const EmptyView = ({description, imageSource}) => {
   const {width} = useTheme();
   return (
     <View
-      style={{
-        padding: width * 0.04,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
+      style={[
+        styles.container,
+        {
+          padding: width * 0.04,
+        },
+      ]}>
       <Image
         source={imageSource}
         style={{
@@ -23,5 +24,12 @@ const EmptyView = ({description, imageSource}) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default memo(EmptyView);

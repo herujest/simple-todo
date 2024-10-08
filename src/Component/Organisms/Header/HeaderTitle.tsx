@@ -1,18 +1,16 @@
-import {Pressable, View} from 'react-native';
 import React from 'react';
-import HeaderWrapper from './HeaderWrapper';
-import Icon from '../../Atoms/Icon';
-import Text from '../../Atoms/Text';
+import {Pressable, StyleSheet} from 'react-native';
 import {useTheme} from '../../../Context/ThemeContext';
 import {navigateBack} from '../../../Screens';
+import Icon from '../../Atoms/Icon';
+import Text from '../../Atoms/Text';
+import HeaderWrapper from './HeaderWrapper';
 
 const HeaderTitle = ({title, ...props}: {title: string}) => {
   const {width, colors} = useTheme();
   return (
     <HeaderWrapper>
-      <Pressable
-        style={{flexDirection: 'row', alignItems: 'center'}}
-        onPress={() => navigateBack()}>
+      <Pressable style={styles.rowCenter} onPress={() => navigateBack()}>
         <Icon
           name="arrow-left2"
           style={{marginRight: width * 0.03}}
@@ -25,5 +23,9 @@ const HeaderTitle = ({title, ...props}: {title: string}) => {
     </HeaderWrapper>
   );
 };
+
+const styles = StyleSheet.create({
+  rowCenter: {flexDirection: 'row', alignItems: 'center'},
+});
 
 export default HeaderTitle;

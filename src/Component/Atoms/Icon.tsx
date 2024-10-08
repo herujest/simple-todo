@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
-import json from '../../Assets/Fonts/selection.json';
 import {StyleProp, ViewStyle} from 'react-native';
 import {Path, Svg} from 'react-native-svg';
+import json from '../../Assets/Fonts/selection.json';
 
 interface IconSet {
   icons: Array<any>;
