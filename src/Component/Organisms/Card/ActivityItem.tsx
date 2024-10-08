@@ -1,7 +1,15 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 
-const ActivityItem = ({item, expanded}: {item: any; expanded?: boolean}) => {
+const ActivityItem = ({
+  item,
+  expanded,
+  editMode,
+}: {
+  item: any;
+  expanded?: boolean;
+  editMode?: boolean;
+}) => {
   return (
     <View>
       <Text>ActivityItem</Text>

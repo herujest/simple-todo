@@ -20,7 +20,9 @@ const EmptyView = ({description, imageSource}) => {
           height: width * 0.8,
         }}
       />
-      <Text style={{marginTop: width * 0.1}}>{description}</Text>
+      <Text style={{marginTop: width * 0.1, textAlign: 'center'}}>
+        {description}
+      </Text>
     </View>
   );
 };

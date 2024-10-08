@@ -43,7 +43,9 @@ export type IconName =
   | 'education-learning'
   | 'travel-luggage'
   | 'clean'
-  | 'exercise-health-fitness';
+  | 'exercise-health-fitness'
+  | 'edit'
+  | 'trash-bin';
 
 export interface IIcon extends Omit<SvgIconProps, 'iconSet' | 'name' | 'size'> {
   name: IconName;
