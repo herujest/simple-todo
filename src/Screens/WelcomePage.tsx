@@ -5,6 +5,7 @@ import Container from '../Component/Molecules/Container';
 import Content from '../Component/Molecules/Content';
 import {useTheme} from '../Context/ThemeContext';
 import Button from '../Component/Atoms/Buttons';
+import {fetchOrCreateUser} from '../Utils/api/userApi';
 
 const WelcomePage = props => {
   const {width} = useTheme();
@@ -33,16 +34,26 @@ const WelcomePage = props => {
           </Text>
         </View>
       </Content>
-      <Button
-        type="primary"
-        title="Get Started"
-        onPress={() => navigation.replace('Tabs')}
-      />
+      <Button type="primary" title="Get Started" onPress={getStarted} />
       <Text variant="bodyText3" style={{textAlign: 'center'}}>
         Your tasks will be saved automatically!
       </Text>
     </Container>
   );
+
+  async function getStarted() {
+    try {
+      const user = await fetchOrCreateUser();
+      console.log('user', user);
+
+      if (user) {
+        navigation.replace('Tabs'); // Navigate to the Tabs screen
+      }
+    } catch (err) {
+      console.error('Error in getStarted:', err.message);
+      // Handle the error (e.g., show an alert or message to the user)
+    }
+  }
 };
 
 const styles = StyleSheet.create({

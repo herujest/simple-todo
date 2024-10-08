@@ -1,5 +1,5 @@
 import {FlatList, Pressable, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Container from '../Component/Molecules/Container';
 import Text from '../Component/Atoms/Text';
 import Content from '../Component/Molecules/Content';
@@ -8,6 +8,7 @@ import {useTheme} from '../Context/ThemeContext';
 import EmptyView from '../Component/Organisms/EmptyView';
 import Icon from '../Component/Atoms/Icon';
 import ActivityItem from '../Component/Organisms/Card/ActivityItem';
+import {getActivities} from '../Utils/api/activityApi';
 
 const RenderItem = ({item, index}) => {
   return <ActivityItem key={`home-item_${index}`} item={item} />;
@@ -15,12 +16,35 @@ const RenderItem = ({item, index}) => {
 
 const HomeScreen = () => {
   const {colors, width} = useTheme();
+  const [activities, setActivities] = useState<any[]>([]);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+
+  const fetchActivities = async () => {
+    try {
+      const data = await getActivities();
+      setActivities(data);
+      setIsRefreshing(false);
+    } catch (error) {
+      console.error('Error fetching activities:', error);
+      setIsRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchActivities();
+  }, []);
+
+  useEffect(() => {
+    console.log('activities', activities);
+  }, [activities]);
 
   return (
     <Container>
       <HeaderBrand />
       <FlatList
-        data={[]}
+        data={activities}
+        onRefresh={onRefresh}
+        refreshing={isRefreshing}
         style={{padding: width * 0.04}}
         ListEmptyComponent={
           <EmptyView
@@ -53,6 +77,11 @@ const HomeScreen = () => {
       />
     </Container>
   );
+
+  function onRefresh() {
+    setIsRefreshing(true);
+    fetchActivities();
+  }
 };
 
 export default HomeScreen;
