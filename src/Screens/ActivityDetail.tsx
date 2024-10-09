@@ -14,9 +14,18 @@ import SwipeableTask from '../Component/Organisms/Card/SwipeableTask';
 import EmptyView from '../Component/Organisms/EmptyView';
 import {useTheme} from '../Context/ThemeContext';
 import {getActivityDetails, updateActivity} from '../Utils/api/activityApi';
-import {deleteTask, updateTaskCompletion} from '../Utils/api/taskApi';
+import {
+  createTask,
+  CreateTaskDTO,
+  deleteTask,
+  updateTaskCompletion,
+} from '../Utils/api/taskApi';
 import {GoalDTO} from './ActivityGoal';
-import Popups, {EditActivityPopup} from '../Component/Molecules/Popups';
+import Popups, {
+  EditActivityPopup,
+  InputGoalPopup,
+} from '../Component/Molecules/Popups';
+import Button from '../Component/Atoms/Buttons';
 
 type DetailActivityDTO = {
   title: string;
@@ -182,6 +191,14 @@ const ActivityDetail = props => {
                 </View>
               ) : null}
             </View>
+            <View style={[styles.row, {marginTop: width * 0.05}]}>
+              <Pressable onPress={addNewTask} style={styles.row}>
+                <Icon name="plus-circle" color={colors.color1} />
+                <Text style={{color: colors.color1, marginLeft: width * 0.03}}>
+                  Add Task
+                </Text>
+              </Pressable>
+            </View>
           </>
         }
         renderItem={({item, index}: {item: GoalDTO; index: number}) => {
@@ -204,6 +221,31 @@ const ActivityDetail = props => {
       <Popups ref={activityPopup} />
     </Container>
   );
+
+  async function onSubmit(payload: CreateTaskDTO) {
+    try {
+      const response = await createTask(payload);
+
+      if (response.success) {
+        onRefresh();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function addNewTask() {
+    const submitNewTask = (item: CreateTaskDTO) => {
+      activityPopup.current._closeModal();
+      setTimeout(() => {
+        console.log('iatem', item);
+        onSubmit({...item, activityId: route?.params?.id});
+      }, 500);
+    };
+    activityPopup.current._showModal({
+      children: <InputGoalPopup onSave={submitNewTask} />,
+    });
+  }
 };
 
 const styles = StyleSheet.create({

@@ -1,12 +1,14 @@
 import {getDeviceId, getUniqueId} from 'react-native-device-info';
 import {supabase} from '../supabaseClient';
 
-export const createTask = async (payload: {
+export type CreateTaskDTO = {
   title: string;
   description?: string;
   dueDate?: string | null;
   isComplete?: boolean;
-}) => {
+  activityId?: number | null;
+};
+export const createTask = async (payload: CreateTaskDTO) => {
   const deviceId = getDeviceId();
   const uniqueId = await getUniqueId();
   const user_device = `${uniqueId}_${deviceId}`;
@@ -21,6 +23,7 @@ export const createTask = async (payload: {
         updated_at: new Date().toISOString(),
         is_completed: payload.isComplete || false,
         user_device: user_device,
+        activity_id: payload.activityId || null,
       },
     ]);
 

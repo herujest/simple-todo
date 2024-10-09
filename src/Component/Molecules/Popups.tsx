@@ -36,14 +36,14 @@ export const InputGoalPopup = React.memo(
     onSave,
     error,
   }: {
-    initialValues: {
+    initialValues?: {
       title: string;
       desc: string;
       dueDate: string;
       isComplete: boolean;
     };
     onSave: (val?: any) => void;
-    onDelete: () => void;
+    onDelete?: () => void;
     error?: string;
   }) => {
     const {colors, width} = useTheme();
