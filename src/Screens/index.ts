@@ -6,9 +6,9 @@ import {
 import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
 import {TabNavigator} from '../App';
 import AddActivity, {ActivityDTO} from './AddActivity';
-import AddSingleTask from './AddSingleTask';
 import WelcomePage from './WelcomePage';
 import ActivityGoal from './ActivityGoal';
+import ActivityDetail from './ActivityDetail';
 
 interface INavigationOption {
   name: string;
@@ -47,8 +47,8 @@ export const Screens: Array<INavigationOption> = [
     },
   },
   {
-    name: 'AddSingleTask',
-    component: AddSingleTask,
+    name: 'ActivityDetail',
+    component: ActivityDetail,
     options: {
       headerShown: false,
     },
@@ -63,7 +63,7 @@ export type RootStackParamList = {
   SettingsScreen: undefined;
   AddActivity: undefined;
   ActivityGoal: {title: string; description?: string; activeType: ActivityDTO};
-  AddSingleTask: undefined;
+  ActivityDetail: {id: number};
 };
 
 export const navigationRef = createNavigationContainerRef<RootStackParamList>();

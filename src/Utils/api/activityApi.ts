@@ -75,6 +75,7 @@ export const getActivities = async () => {
       .from('activities')
       .select(
         `
+            id,
             title,
             description,
             created_at,
@@ -98,6 +99,7 @@ export const getActivities = async () => {
 
     const formattedData = data.map(activity => ({
       activities: {
+        id: activity.id,
         title: activity.title,
         description: activity.description,
         created_at: activity.created_at,
@@ -133,4 +135,47 @@ export const deleteActivity = async (activityId: number) => {
 
   if (error) throw new Error(error.message);
   return data;
+};
+
+export const getActivityDetails = async (activityId: number) => {
+  const deviceId = getDeviceId();
+  const uniqueId = await getUniqueId();
+  const deviceUniqueId = `${uniqueId}_${deviceId}`;
+
+  try {
+    const {data, error} = await supabase
+      .from('activities')
+      .select(
+        `
+        title,
+        description,
+        created_at,
+        updated_at,
+        user_device,
+        asset_icon_name,
+        tasks (
+          id,
+          title,
+          description,
+          due_date,
+          is_completed,
+          created_at,
+          updated_at
+        )
+      `,
+      )
+      .eq('id', activityId)
+      .eq('user_device', deviceUniqueId)
+      .single();
+
+    if (error) throw new Error(error.message);
+
+    return {
+      success: true,
+      data,
+    };
+  } catch (error) {
+    console.error('Error fetching activity details:', error.message);
+    throw new Error('Unable to fetch activity details');
+  }
 };

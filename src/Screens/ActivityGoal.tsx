@@ -214,10 +214,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // alignSelf: 'flex-end',
+    paddingTop: 15,
   },
   btnClose: {
     alignSelf: 'baseline',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
   },
   title: {textAlign: 'center', marginBottom: 20},
   info: {

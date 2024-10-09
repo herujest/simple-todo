@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, StyleSheet} from 'react-native';
+import {Platform, Pressable, StyleSheet} from 'react-native';
 import {useTheme} from '../../../Context/ThemeContext';
 import {navigateBack} from '../../../Screens';
 import Icon from '../../Atoms/Icon';
@@ -25,7 +25,11 @@ const HeaderTitle = ({title, ...props}: {title: string}) => {
 };
 
 const styles = StyleSheet.create({
-  rowCenter: {flexDirection: 'row', alignItems: 'center'},
+  rowCenter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: Platform.OS === 'android' ? 20 : undefined,
+  },
 });
 
 export default HeaderTitle;

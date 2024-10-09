@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {View, TextInput, StyleSheet, TextInputProps} from 'react-native';
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  TextInputProps,
+  KeyboardAvoidingView,
+} from 'react-native';
 import Text from '../Atoms/Text';
 import {useTheme} from '../../Context/ThemeContext';
 
@@ -40,26 +46,30 @@ const StackedLabelInput: React.FC<StackedLabelInputProps> = ({
   ];
 
   return (
-    <View style={styles.container}>
-      <Text variant="headline3" style={[styles.label, {color: colors.basic4}]}>
-        {label}
-      </Text>
-      <TextInput
-        style={inputStyles}
-        value={value}
-        onChangeText={onChangeText}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        placeholder={placeholder}
-        secureTextEntry={secureTextEntry}
-        placeholderTextColor={colors.basic4}
-        {...props}
-      />
-      {error && (
-        <Text style={styles.errorMessage}>This field is required.</Text>
-      )}
-      {success && <Text style={styles.successMessage}>Looks good!</Text>}
-    </View>
+    <KeyboardAvoidingView>
+      <View style={styles.container}>
+        <Text
+          variant="headline3"
+          style={[styles.label, {color: colors.basic4}]}>
+          {label}
+        </Text>
+        <TextInput
+          style={inputStyles}
+          value={value}
+          onChangeText={onChangeText}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          placeholder={placeholder}
+          secureTextEntry={secureTextEntry}
+          placeholderTextColor={colors.basic4}
+          {...props}
+        />
+        {error && (
+          <Text style={styles.errorMessage}>This field is required.</Text>
+        )}
+        {success && <Text style={styles.successMessage}>Looks good!</Text>}
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

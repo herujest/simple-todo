@@ -35,7 +35,7 @@ function RightAction(
 ) {
   const styleAnimation = useAnimatedStyle(() => {
     return {
-      transform: [{translateX: drag.value + 50}],
+      transform: [{translateX: drag.value + 51}],
     };
   });
 

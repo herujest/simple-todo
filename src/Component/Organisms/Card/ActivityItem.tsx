@@ -4,9 +4,11 @@ import {useTheme} from '../../../Context/ThemeContext';
 import {GoalDTO} from '../../../Screens/ActivityGoal';
 import Icon from '../../Atoms/Icon';
 import Text from '../../Atoms/Text';
+import {navigate} from '../../../Screens';
 
 export type ActivitiesDTO = {
   activities: {
+    id: number;
     title: string;
     description: string;
     created_at: string;
@@ -17,15 +19,7 @@ export type ActivitiesDTO = {
   tasks: GoalDTO[];
 };
 
-const ActivityItem = ({
-  item,
-  editMode,
-  onPressEdit,
-}: {
-  item: ActivitiesDTO;
-  editMode?: boolean;
-  onPressEdit?: () => void;
-}) => {
+const ActivityItem = ({item}: {item: ActivitiesDTO}) => {
   const {colors, width} = useTheme();
   const {title, description, asset_icon_name} = item.activities;
   console.log('taskks', item.tasks);
@@ -33,8 +27,12 @@ const ActivityItem = ({
     task => task.is_completed === true,
   ).length;
 
+  function openDetail() {
+    navigate('ActivityDetail', {id: item.activities?.id});
+  }
+
   return (
-    <View style={styles.tiles}>
+    <Pressable onPress={openDetail} style={styles.tiles}>
       <View style={{flex: 1}}>
         <Icon
           name={asset_icon_name ? asset_icon_name : 'todo-done'}
@@ -52,16 +50,10 @@ const ActivityItem = ({
           {description || '--'}
         </Text>
       </View>
-      {editMode ? (
-        <Pressable onPress={onPressEdit}>
-          <Icon name="edit" color={colors.color1} size={width * 0.07} />
-        </Pressable>
-      ) : (
-        <View>
-          <Text>{`${completedCount}/${item.tasks.length}`}</Text>
-        </View>
-      )}
-    </View>
+      <View>
+        <Text>{`${completedCount}/${item.tasks.length}`}</Text>
+      </View>
+    </Pressable>
   );
 };
 
