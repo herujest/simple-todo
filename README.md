@@ -1,79 +1,88 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# To-Do List App
 
-# Getting Started
+This is a **To-Do List App** built with **React Native**. It supports task and activity creation, completion tracking, and real-time synchronization using **Supabase**. The app is developed for **assessment purposes** and is not intended for public use.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Table of Contents
 
-## Step 1: Start the Metro Server
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Design System](#design-system)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
+- [License](#license)
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Features
 
-To start Metro, run the following command from the _root_ of your React Native project:
+- Create, edit, delete tasks and activities.
+- Link tasks to specific activities.
+- Swipe-to-delete tasks.
+- Track task completion with real-time updates.
+- Dark and light theme support.
+- Error handling and toast notifications for a smooth user experience.
+- Integrated sorting rules to prioritize incomplete tasks and order by latest updates.
+
+## Technologies Used
+
+- **React Native**: Frontend framework for building native mobile applications using JavaScript.
+- **Supabase**: Backend-as-a-service for database and authentication management.
+- **IcoMoon** and **LineIcons**: Icon libraries for vector icons and illustrations.
+- **React Native Gesture Handler** and **Reanimated**: Libraries for smooth gesture handling and animations.
+- **Figma Design**: UI and Design system inspired by the OneLook Wellness App.
+
+## Design System
+
+The design system and UI components in this app are structured based on **Atomic Design principles**. Here’s a breakdown:
+
+- **Atoms**: Buttons, text components, icons.
+- **Molecules**: Container and content sections.
+- **Organisms**: Task cards, headers, and complex UI elements.
+
+### **Design References:**
+
+- **Tooploox Team** & **Weronika Kołodziej-Teszbir** – "OneLook Wellness App" ([Figma File](https://www.figma.com/community/file/1192403827893885122/onelook-wellness-app)).
+- **Icons**:
+  - [IcoMoon Free](https://icomoon.io/app/#/select/library)
+  - [LineIcons](http://designmodo.com/linecons-free/)
+
+## Installation
+
+To run this project locally, you will need **Node.js** and **React Native CLI** installed.
+
+### Step 1: Clone the repository
 
 ```bash
-# using npm
-npm start
-
-# OR using Yarn
-yarn start
+git clone https://github.com/herujest/simple-todo.git
+cd simple-todo
 ```
 
-## Step 2: Start your Application
-
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
+### Step 2: Install dependencies
 
 ```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
+npm install
 ```
 
-### For iOS
+### Step 3: Run the app
 
 ```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+npx react-native run-android # for Android
+npx react-native run-ios     # for iOS
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+## Usage
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+Once the app is running, you can:
 
-## Step 3: Modifying your App
+- **Create a task or activity**: Use the "Add Task" button to create standalone tasks or activities with linked tasks.
+- **Swipe to delete**: Swipe a task to the left to reveal a delete button and remove the task.
+- **Complete tasks**: Tap on the radio button next to a task to mark it as complete or incomplete.
+- **Edit tasks or activities**: Click on a task or activity to edit its details.
+- **View completed tasks**: Completed tasks are moved to the bottom of the list, while incomplete tasks appear at the top.
 
-Now that you have successfully run the app, let's modify it.
+## Screenshots
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+_TODO: Add screenshots._
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+## License
 
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+This project is for **assessment purposes only** and is not licensed for public or commercial use.
