@@ -16,7 +16,7 @@ export type ActivityDTO = {
   placeholder?: string;
   iconName: IconName;
 };
-const ActivityTemplates: ActivityDTO[] = [
+export const ActivityTemplates: ActivityDTO[] = [
   {
     id: 1,
     title: 'Regular',

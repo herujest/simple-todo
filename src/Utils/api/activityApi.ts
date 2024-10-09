@@ -132,14 +132,30 @@ export const getActivities = async () => {
   }
 };
 
-export const updateActivity = async (activityId: number, newName: string) => {
-  const {data, error} = await supabase
-    .from('activities')
-    .update({name: newName})
-    .eq('id', activityId);
+export const updateActivity = async (
+  activityId: number,
+  updates: Partial<{
+    title: string;
+    description: string;
+    asset_icon_name: string;
+  }>,
+) => {
+  try {
+    const {data, error} = await supabase
+      .from('activities')
+      .update(updates)
+      .eq('id', activityId);
 
-  if (error) throw new Error(error.message);
-  return data;
+    if (error) throw new Error(`Error updating activity: ${error.message}`);
+
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (error: any) {
+    console.error('Error updating activity:', error.message);
+    throw new Error(error.message);
+  }
 };
 
 export const deleteActivity = async (activityId: number) => {

@@ -7,13 +7,20 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {Pressable, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useTheme} from '../../Context/ThemeContext';
 import Icon from '../Atoms/Icon';
 import Text from '../Atoms/Text';
 import Modal, {IModalData} from './Modal';
 import Button from '../Atoms/Buttons';
 import StackedLabelInput from './InputField';
+import {ActivityDTO, ActivityTemplates} from '../../Screens/AddActivity';
 
 export type PopupType = {
   modalTitle?: string;
@@ -116,6 +123,111 @@ export const InputGoalPopup = React.memo(
   },
 );
 
+export const EditActivityPopup = React.memo(
+  ({
+    initialValues,
+    onSave,
+    error,
+  }: {
+    initialValues: {
+      title: string;
+      desc: string;
+      asset_icon_name: string;
+    };
+    onSave: (val?: any) => void;
+    error?: string;
+  }) => {
+    const {colors, width} = useTheme();
+    const [tempTitle, setTempTitle] = useState<string>('');
+    const [tempDesc, setTempDesc] = useState<string>('');
+    const [tempAsset, setTempAsset] = useState<string>('');
+    const [activeType, setActiveType] = useState<ActivityDTO | undefined>(
+      ActivityTemplates[0],
+    );
+
+    useEffect(() => {
+      setTempTitle(initialValues?.title);
+      setTempDesc(initialValues?.desc);
+      setTempAsset(initialValues?.asset_icon_name);
+      setActiveType(
+        ActivityTemplates.find(
+          i => i.iconName === initialValues.asset_icon_name,
+        ),
+      );
+    }, [initialValues]);
+
+    function onSubmit() {
+      const payload = {
+        title: tempTitle,
+        description: tempDesc,
+        asset_icon_name: tempAsset,
+      };
+      onSave(payload);
+      console.log('payload', payload);
+    }
+
+    return (
+      <View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {ActivityTemplates.map((item: ActivityDTO, index: number) => {
+            const isActive = item.id === activeType.id;
+            function _setActive() {
+              setActiveType(item);
+              setTempAsset(item.iconName);
+            }
+
+            return (
+              <Pressable
+                key={`template-act_${index}`}
+                style={[styles.itemType]}
+                onPress={_setActive}>
+                <View
+                  style={[
+                    styles.icon,
+                    isActive ? styles.active : undefined,
+                    {backgroundColor: colors.background5},
+                  ]}>
+                  <Icon
+                    name={item.iconName}
+                    color={colors.color2}
+                    size={width * 0.06}
+                  />
+                </View>
+                <Text
+                  variant="bodyText3Bold"
+                  style={{color: isActive ? colors.basic4 : colors.basic3}}>
+                  {item.title}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+        <StackedLabelInput
+          label="Goal Name*"
+          onChangeText={setTempTitle}
+          value={tempTitle}
+          placeholder={'Type name of the goal'}
+        />
+        <StackedLabelInput
+          label="Description"
+          onChangeText={setTempDesc}
+          value={tempDesc}
+          placeholder={'Type your detail goal info'}
+          multiline
+          numberOfLines={4}
+        />
+
+        <Button
+          type="secondary"
+          title="Update"
+          onPress={onSubmit}
+          disabled={!tempTitle}
+        />
+      </View>
+    );
+  },
+);
+
 const Popups = forwardRef(({}: {}, ref) => {
   const {colors, width} = useTheme();
 
@@ -185,7 +297,7 @@ const Popups = forwardRef(({}: {}, ref) => {
       avoidKeyboard
       propagateSwipe
       onSwipeComplete={undefined}
-      swipeDirection={undefined}
+      swipeDirection={null}
       containerStyle={[
         styles.modalTitle,
         {
@@ -211,6 +323,22 @@ const styles = StyleSheet.create({
   delete: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  itemType: {
+    marginRight: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  icon: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 100,
+    marginBottom: 5,
+    padding: 15,
+  },
+  active: {
+    borderWidth: 3,
+    borderColor: '#A1A3F6',
   },
 });
 
