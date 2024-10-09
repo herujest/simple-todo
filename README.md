@@ -21,6 +21,9 @@ Feel free to run the tests and provide feedback on the implementations!
 
 This is a **To-Do List App** built with **React Native**. It supports task and activity creation, completion tracking, and real-time synchronization using **Supabase**. The app is developed for **assessment purposes** and is not intended for public use.
 
+Download for demo app:
+[Android App]('https://drive.google.com/file/d/10JcZ_fRVuop_uSnQL7N-mdl03Te3AXO-/view?usp=share_link')
+
 ## Table of Contents
 
 - [Features](#features)
