@@ -1,3 +1,22 @@
+## Problem Solving Tests
+
+This project includes several coding challenges and problem-solving exercises located in the `./problemSolving/` directory. Each file corresponds to a specific problem statement and contains the solution implemented in TypeScript.
+
+### Structure
+
+- **Problem Solving Directory**: `./problemSolving/`
+  - `miniMaxSum.ts`: Implementation of the Mini-Max Sum test.
+  - `plusMinus.ts`: Implementation of the Plus Minus test.
+  - `timeConversion.ts`: Implementation of the Time Conversion test.
+
+### Note to Reviewers
+
+If you are reviewing my code, please check the individual files in the `./problemSolving/` directory for the solutions to the respective problems. Each solution is designed to demonstrate my understanding of algorithm design and TypeScript.
+
+Feel free to run the tests and provide feedback on the implementations!
+
+---
+
 # To-Do List App
 
 This is a **To-Do List App** built with **React Native**. It supports task and activity creation, completion tracking, and real-time synchronization using **Supabase**. The app is developed for **assessment purposes** and is not intended for public use.
