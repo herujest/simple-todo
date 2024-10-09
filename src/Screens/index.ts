@@ -5,10 +5,12 @@ import {
 } from '@react-navigation/native';
 import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
 import {TabNavigator} from '../App';
-import AddActivity, {ActivityDTO} from './AddActivity';
-import WelcomePage from './WelcomePage';
-import ActivityGoal from './ActivityGoal';
+import AboutScreen from './AboutScreen';
 import ActivityDetail from './ActivityDetail';
+import ActivityGoal from './ActivityGoal';
+import AddActivity, {ActivityDTO} from './AddActivity';
+import ContactScreen from './ContactScreen';
+import WelcomePage from './WelcomePage';
 
 interface INavigationOption {
   name: string;
@@ -53,6 +55,20 @@ export const Screens: Array<INavigationOption> = [
       headerShown: false,
     },
   },
+  {
+    name: 'AboutScreen',
+    component: AboutScreen,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'ContactScreen',
+    component: ContactScreen,
+    options: {
+      headerShown: false,
+    },
+  },
 ];
 
 export type RootStackParamList = {
@@ -64,6 +80,8 @@ export type RootStackParamList = {
   AddActivity: undefined;
   ActivityGoal: {title: string; description?: string; activeType: ActivityDTO};
   ActivityDetail: {id: number};
+  AboutScreen: undefined;
+  ContactScreen: undefined;
 };
 
 export const navigationRef = createNavigationContainerRef<RootStackParamList>();
