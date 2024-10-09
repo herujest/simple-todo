@@ -1,0 +1,29 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/Assets/Fonts/NotoSans-Black.ttf",
+      "sha1": "940817c7e106adcfe91d903cb765c28f00e0c92b"
+    },
+    {
+      "path": "src/Assets/Fonts/NotoSans-Bold.ttf",
+      "sha1": "2bbc2b3df20c7f3e5bcb249a5becc5afdac241eb"
+    },
+    {
+      "path": "src/Assets/Fonts/NotoSans-Italic.ttf",
+      "sha1": "0395aec563a417025171895417c40ea72d60c64f"
+    },
+    {
+      "path": "src/Assets/Fonts/NotoSans-Medium.ttf",
+      "sha1": "55a5d6c795221919173bbd3b57bbf91944fad089"
+    },
+    {
+      "path": "src/Assets/Fonts/NotoSans-Regular.ttf",
+      "sha1": "9c438cb12d406e83f26ca88a95d8cc6f64489187"
+    },
+    {
+      "path": "src/Assets/Fonts/NotoSans-SemiBold.ttf",
+      "sha1": "a4ebcfb2391c86949126c00c355ea57b86ae9fa3"
+    }
+  ]
+}
