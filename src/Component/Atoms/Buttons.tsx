@@ -1,5 +1,11 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet, ViewStyle, TextStyle} from 'react-native';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  ViewStyle,
+  TextStyle,
+  StyleProp,
+} from 'react-native';
 import Text from './Text';
 
 interface ButtonProps {
@@ -7,9 +13,18 @@ interface ButtonProps {
   title: string;
   onPress?: () => void;
   disabled?: boolean;
+  style?: StyleProp<ViewStyle>;
+  showIcon?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({type, title, onPress, disabled}) => {
+const Button: React.FC<ButtonProps> = ({
+  type,
+  title,
+  onPress,
+  disabled,
+  style,
+  showIcon = true,
+}) => {
   const buttonStyles = getButtonStyle(type);
   return (
     <TouchableOpacity
@@ -17,6 +32,7 @@ const Button: React.FC<ButtonProps> = ({type, title, onPress, disabled}) => {
         styles.button,
         buttonStyles.container,
         disabled && buttonStyles.inactiveContainer,
+        style,
       ]}
       onPress={onPress}
       disabled={disabled}>
@@ -29,7 +45,9 @@ const Button: React.FC<ButtonProps> = ({type, title, onPress, disabled}) => {
         ]}>
         {title}
       </Text>
-      <Text style={[styles.arrow, buttonStyles.text]}>{'→'}</Text>
+      {showIcon ? (
+        <Text style={[styles.arrow, buttonStyles.text]}>{'→'}</Text>
+      ) : null}
     </TouchableOpacity>
   );
 };

@@ -10,10 +10,19 @@ import {navigateBack} from '.';
 import Icon from '../Component/Atoms/Icon';
 import Text from '../Component/Atoms/Text';
 import Container from '../Component/Molecules/Container';
+import Popups, {
+  ConfirmationModal,
+  EditActivityPopup,
+  InputGoalPopup,
+} from '../Component/Molecules/Popups';
 import SwipeableTask from '../Component/Organisms/Card/SwipeableTask';
 import EmptyView from '../Component/Organisms/EmptyView';
 import {useTheme} from '../Context/ThemeContext';
-import {getActivityDetails, updateActivity} from '../Utils/api/activityApi';
+import {
+  deleteActivity,
+  getActivityDetails,
+  updateActivity,
+} from '../Utils/api/activityApi';
 import {
   createTask,
   CreateTaskDTO,
@@ -21,11 +30,6 @@ import {
   updateTaskCompletion,
 } from '../Utils/api/taskApi';
 import {GoalDTO} from './ActivityGoal';
-import Popups, {
-  EditActivityPopup,
-  InputGoalPopup,
-} from '../Component/Molecules/Popups';
-import Button from '../Component/Atoms/Buttons';
 
 type DetailActivityDTO = {
   title: string;
@@ -118,6 +122,26 @@ const ActivityDetail = props => {
     });
   }
 
+  function onDeleteActivity() {
+    const _delete = () => {
+      activityPopup.current._closeModal();
+      setTimeout(() => {
+        deleteActivity(route.params.id).then(() => {
+          navigateBack();
+        });
+      }, 500);
+    };
+
+    activityPopup.current._showModal({
+      children: (
+        <ConfirmationModal
+          onPressNo={activityPopup.current._closeModal}
+          onPressYes={_delete}
+        />
+      ),
+    });
+  }
+
   return (
     <Container style={{paddingHorizontal: width * 0.04}}>
       <FlatList
@@ -156,7 +180,7 @@ const ActivityDetail = props => {
                   <Icon name="edit" size={width * 0.05} />
                 </Pressable>
                 <Pressable
-                  onPress={() => navigateBack()}
+                  onPress={onDeleteActivity}
                   style={[
                     styles.btnClose,
                     {

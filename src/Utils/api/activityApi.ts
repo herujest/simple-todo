@@ -159,13 +159,32 @@ export const updateActivity = async (
 };
 
 export const deleteActivity = async (activityId: number) => {
-  const {data, error} = await supabase
-    .from('activities')
-    .delete()
-    .eq('id', activityId);
+  try {
+    const {error: taskError} = await supabase
+      .from('tasks')
+      .delete()
+      .eq('activity_id', activityId);
 
-  if (error) throw new Error(error.message);
-  return data;
+    if (taskError)
+      throw new Error(`Error deleting tasks: ${taskError.message}`);
+
+    const {data, error: activityError} = await supabase
+      .from('activities')
+      .delete()
+      .eq('id', activityId);
+
+    if (activityError)
+      throw new Error(`Error deleting activity: ${activityError.message}`);
+
+    return {
+      success: true,
+      message: 'Activity and linked tasks deleted successfully',
+      data: data,
+    };
+  } catch (error: any) {
+    console.error('Error deleting activity:', error.message);
+    throw new Error(error.message);
+  }
 };
 
 export const getActivityDetails = async (activityId: number) => {

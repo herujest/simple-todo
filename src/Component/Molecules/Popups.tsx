@@ -228,6 +228,42 @@ export const EditActivityPopup = React.memo(
   },
 );
 
+export const ConfirmationModal = React.memo(
+  ({
+    onPressNo,
+    onPressYes,
+  }: {
+    onPressNo: () => void;
+    onPressYes: () => void;
+  }) => {
+    return (
+      <>
+        <Text
+          variant="headline2"
+          style={{textAlign: 'center', marginBottom: 10}}>
+          Are you sure?
+        </Text>
+        <View style={styles.row}>
+          <Button
+            type="primary"
+            title="No"
+            onPress={onPressNo}
+            showIcon={false}
+            style={{flex: 1, marginHorizontal: 3}}
+          />
+          <Button
+            type="secondary"
+            title="Yes"
+            onPress={onPressYes}
+            showIcon={false}
+            style={{flex: 1, marginHorizontal: 3}}
+          />
+        </View>
+      </>
+    );
+  },
+);
+
 const Popups = forwardRef(({}: {}, ref) => {
   const {colors, width} = useTheme();
 
@@ -310,6 +346,11 @@ const Popups = forwardRef(({}: {}, ref) => {
 });
 
 const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   itemEnd: {alignItems: 'flex-end'},
   modalTitle: {
     borderRadius: 20,
