@@ -75,22 +75,22 @@ export const getActivities = async () => {
       .from('activities')
       .select(
         `
-            id,
+          id,
+          title,
+          description,
+          created_at,
+          updated_at,
+          user_device,
+          asset_icon_name,
+          tasks (
             title,
             description,
             created_at,
             updated_at,
-            user_device,
-            asset_icon_name,
-            tasks (
-              title,
-              description,
-              created_at,
-              updated_at,
-              due_date,
-              is_completed
-            )
-          `,
+            due_date,
+            is_completed
+          )
+        `,
       )
       .eq('user_device', deviceUniqueId)
       .order('updated_at', {ascending: false});
@@ -109,6 +109,21 @@ export const getActivities = async () => {
       },
       tasks: activity.tasks || [],
     }));
+
+    formattedData.sort((a, b) => {
+      const allTasksCompletedA =
+        a.tasks.length > 0 && a.tasks.every(task => task.is_completed);
+      const allTasksCompletedB =
+        b.tasks.length > 0 && b.tasks.every(task => task.is_completed);
+
+      if (allTasksCompletedA && !allTasksCompletedB) return 1;
+      if (!allTasksCompletedA && allTasksCompletedB) return -1;
+
+      const updatedAtA = new Date(a.activities.updated_at).getTime();
+      const updatedAtB = new Date(b.activities.updated_at).getTime();
+
+      return updatedAtB - updatedAtA;
+    });
 
     return formattedData;
   } catch (error) {
@@ -174,7 +189,7 @@ export const getActivityDetails = async (activityId: number) => {
       success: true,
       data,
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching activity details:', error.message);
     throw new Error('Unable to fetch activity details');
   }

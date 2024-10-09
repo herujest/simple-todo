@@ -11,6 +11,7 @@ import EmptyView from '../Component/Organisms/EmptyView';
 import HeaderTitle from '../Component/Organisms/Header/HeaderTitle';
 import {useTheme} from '../Context/ThemeContext';
 import {getActivities} from '../Utils/api/activityApi';
+import {useIsFocused} from '@react-navigation/native';
 
 const RenderItem = ({item, index}: {item: any; index: number}) => {
   return <ActivityItem key={`home-item_${index}`} item={item} expanded />;
@@ -20,6 +21,7 @@ const ActivityScreen = () => {
   const {width, colors} = useTheme();
   const [activities, setActivities] = useState<ActivitiesDTO[]>([]);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const isFocused = useIsFocused();
 
   const fetchActivities = async () => {
     try {
@@ -34,7 +36,7 @@ const ActivityScreen = () => {
 
   useEffect(() => {
     fetchActivities();
-  }, []);
+  }, [isFocused]);
 
   return (
     <Container>
