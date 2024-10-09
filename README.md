@@ -81,7 +81,80 @@ Once the app is running, you can:
 
 ## Screenshots
 
-_TODO: Add screenshots._
+Here are some screenshots of the app:
+
+### Welcome Screen
+
+![WelcomePage](./src/Assets/screenshots/welcomepage.png)
+
+### About Page
+
+![AboutPage](./src/Assets/screenshots/about-page.png)
+
+### Add More Goal
+
+![Add More Goal](./src/Assets/screenshots/add-more-goal.png)
+
+### Add Task from Home
+
+![Add Task](./src/Assets/screenshots/addtask-popup.png)
+
+### Contact Page
+
+![Contact Page](./src/Assets/screenshots/contact-page.png)
+
+### Delete Activity
+
+![Delete Activity](./src/Assets/screenshots/delete-activity.png)
+
+### Swipe to delete task
+
+![Swipe Delete](./src/Assets/screenshots/delete-task-in-activity.png)
+
+### Detail Activity
+
+![Detail Activity](./src/Assets/screenshots/detail-activity.png)
+
+### Edit Activity
+
+![Edit Activity](./src/Assets/screenshots/edit-activity.png)
+
+### Empty Home
+
+![Empty Home](./src/Assets/screenshots/empty-home.png)
+
+### Home with list task
+
+![Home Task](./src/Assets/screenshots/home-list-task.png)
+![Home todo done](./src/Assets/screenshots/home-with-todo.png)
+
+### List Activity
+
+![List Activity](./src/Assets/screenshots/list-activity.png)
+
+### Mark Done Task from activity
+
+![Done](./src/Assets/screenshots/mark-done-task.png)
+
+### Create New Activity page 1
+
+![New Activity](./src/Assets/screenshots/new-activity.png)
+
+### Create New Activity page 2
+
+![New Activity2](./src/Assets/screenshots/new-activity-2.png)
+
+### New Goal
+
+![Add Goal](./src/Assets/screenshots/new-goal.png)
+
+### New Single Task
+
+![Create new single task](./src/Assets/screenshots/new-single-task.png)
+
+### Settings Page
+
+![Settings-page](./src/Assets/screenshots/settings-page.png)
 
 ## License
 
