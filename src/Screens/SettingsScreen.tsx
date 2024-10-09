@@ -30,7 +30,13 @@ const menu: SettingMenuDTO[] = [
     link: '',
     icon: 'handphone',
   },
-  {id: 'menu3', name: 'Other', route: null, link: '', icon: 'info-square'},
+  {
+    id: 'menu3',
+    name: 'Other (problem solving test)',
+    route: null,
+    link: 'https://github.com/herujest/simple-todo/tree/main/problemSolving',
+    icon: 'info-square',
+  },
 ];
 
 const RenderItem = ({item, index}: {item: SettingMenuDTO; index: number}) => {
