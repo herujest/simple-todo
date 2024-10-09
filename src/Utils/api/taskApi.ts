@@ -1,5 +1,6 @@
 import {getDeviceId, getUniqueId} from 'react-native-device-info';
 import {supabase} from '../supabaseClient';
+import {showToast} from '../helpers';
 
 export type CreateTaskDTO = {
   title: string;
@@ -37,6 +38,7 @@ export const createTask = async (payload: CreateTaskDTO) => {
     return response;
   } catch (error: any) {
     console.error('Error creating task:', error.message);
+    showToast('error', error.message, 'Failed to create Task');
     throw new Error(error.message);
   }
 };
@@ -60,6 +62,7 @@ export const getStandaloneTasksByDeviceId = async () => {
     return data;
   } catch (error: any) {
     console.error('Error fetching standalone tasks:', error.message);
+    showToast('error', error.message, 'Error fetching standalone tasks');
     throw new Error(error.message);
   }
 };
@@ -85,6 +88,7 @@ export const updateTaskCompletion = async (
     };
   } catch (error: any) {
     console.error('Error updating task:', error.message);
+    showToast('error', error.message, 'Error updating task');
     throw new Error(error.message);
   }
 };
@@ -114,7 +118,7 @@ export const deleteTask = async (taskId: number) => {
     };
   } catch (error: any) {
     console.error('Error deleting task:', error.message);
-
+    showToast('error', error.message, 'Error deleting task');
     return {
       success: false,
       message: error.message,

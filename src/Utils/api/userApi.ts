@@ -1,7 +1,7 @@
 import {getDeviceId, getUniqueId} from 'react-native-device-info';
 import {supabase} from '../supabaseClient';
+import {showToast} from '../helpers';
 
-// Create a user with device_id
 export const createUser = async (device_id: string) => {
   const {data, error} = await supabase.from('users').insert([{device_id}]);
 
@@ -9,7 +9,6 @@ export const createUser = async (device_id: string) => {
   return data;
 };
 
-// Get user by device_id
 export const getUserByDeviceId = async (device_id: string) => {
   const {data, error} = await supabase
     .from('users')
@@ -33,7 +32,7 @@ export const fetchOrCreateUser = async () => {
       .single();
 
     if (error && error.code !== 'PGRST116') {
-      throw new Error('Error fetching user: ' + error.message); // Handle any other errors
+      throw new Error('Error fetching user: ' + error.message);
     }
 
     if (existingUser) {
@@ -42,11 +41,11 @@ export const fetchOrCreateUser = async () => {
 
     const {data: newUser, error: createError} = await supabase
       .from('users')
-      .insert([{device_id: deviceUniqueId, created_at: new Date()}]) // Insert a new user with device ID
+      .insert([{device_id: deviceUniqueId, created_at: new Date()}])
       .single();
 
     if (createError) {
-      throw new Error('Error creating user: ' + createError.message); // Handle errors during creation
+      throw new Error('Error creating user: ' + createError.message);
     }
 
     const {data: newlyCreatedUser, error: fetchError} = await supabase
@@ -62,8 +61,9 @@ export const fetchOrCreateUser = async () => {
     }
 
     return newlyCreatedUser;
-  } catch (err) {
+  } catch (err: any) {
     console.error('Error in fetchOrCreateUser:', err.message);
+    showToast('error', err.message, 'Error in fetchOrCreateUser');
     return null;
   }
 };

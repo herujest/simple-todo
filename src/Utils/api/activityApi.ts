@@ -1,5 +1,6 @@
 import {getDeviceId, getUniqueId} from 'react-native-device-info';
 import {supabase} from '../supabaseClient';
+import {showToast} from '../helpers';
 
 export const createActivityWithTasks = async (payload: {
   activity: {
@@ -60,7 +61,8 @@ export const createActivityWithTasks = async (payload: {
       activityId,
       message: 'Activity and tasks created successfully',
     };
-  } catch (error) {
+  } catch (error: any) {
+    showToast('error', error.message, 'Error creating activity and tasks');
     throw new Error(`Error creating activity and tasks: ${error.message}`);
   }
 };
@@ -126,8 +128,9 @@ export const getActivities = async () => {
     });
 
     return formattedData;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error:', error.message);
+    showToast('error', error.message, 'Unable to fetch activities');
     throw new Error('Unable to fetch activities');
   }
 };
@@ -154,6 +157,7 @@ export const updateActivity = async (
     };
   } catch (error: any) {
     console.error('Error updating activity:', error.message);
+    showToast('error', error.message, 'Error updating activity');
     throw new Error(error.message);
   }
 };
@@ -183,6 +187,7 @@ export const deleteActivity = async (activityId: number) => {
     };
   } catch (error: any) {
     console.error('Error deleting activity:', error.message);
+    showToast('error', error.message, 'Error deleting activity');
     throw new Error(error.message);
   }
 };
@@ -226,6 +231,7 @@ export const getActivityDetails = async (activityId: number) => {
     };
   } catch (error: any) {
     console.error('Error fetching activity details:', error.message);
+    showToast('error', error.message, 'Error fetching activity details');
     throw new Error('Unable to fetch activity details');
   }
 };

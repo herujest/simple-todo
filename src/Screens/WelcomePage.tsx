@@ -6,6 +6,7 @@ import Container from '../Component/Molecules/Container';
 import Content from '../Component/Molecules/Content';
 import {useTheme} from '../Context/ThemeContext';
 import {fetchOrCreateUser} from '../Utils/api/userApi';
+import {showToast} from '../Utils/helpers';
 
 const WelcomePage = props => {
   const {width} = useTheme();
@@ -44,13 +45,12 @@ const WelcomePage = props => {
   async function getStarted() {
     try {
       const user = await fetchOrCreateUser();
-      console.log('user', user);
-
       if (user) {
         navigation.replace('Tabs');
       }
     } catch (err: any) {
       console.error('Error in getStarted:', err.message);
+      showToast('error', 'error.message', 'Error in gettingstarted');
     }
   }
 };

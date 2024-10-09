@@ -17,6 +17,7 @@ import ActivityScreen from './Screens/ActivityScreen';
 import HomeScreen from './Screens/HomeScreen';
 import SettingsScreen from './Screens/SettingsScreen';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -155,6 +156,7 @@ function NavigationApp() {
             })}
           </Stack.Group>
         </Stack.Navigator>
+        <Toast />
       </NavigationContainer>
     </GestureHandlerRootView>
   );
