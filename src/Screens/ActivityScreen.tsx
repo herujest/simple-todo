@@ -44,6 +44,7 @@ const ActivityScreen = () => {
         onRefresh={onRefresh}
         refreshing={isRefreshing}
         style={{padding: width * 0.04}}
+        contentContainerStyle={{paddingBottom: width * 0.06}}
         ListEmptyComponent={
           <>
             <EmptyView

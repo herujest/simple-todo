@@ -1,27 +1,15 @@
-import {
-  FlatList,
-  Pressable,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import Container from '../Component/Molecules/Container';
-import {useTheme} from '../Context/ThemeContext';
-import Text from '../Component/Atoms/Text';
+import {FlatList, Pressable, StyleSheet, View} from 'react-native';
 import {navigateBack} from '.';
 import Icon from '../Component/Atoms/Icon';
-import {ActivitiesDTO} from '../Component/Organisms/Card/ActivityItem';
+import Text from '../Component/Atoms/Text';
+import Container from '../Component/Molecules/Container';
+import SwipeableTask from '../Component/Organisms/Card/SwipeableTask';
 import EmptyView from '../Component/Organisms/EmptyView';
-import Reanimated, {
-  SharedValue,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
-import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
-import TaskItem from '../Component/Organisms/Card/TaskItem';
-import {GoalDTO} from './ActivityGoal';
+import {useTheme} from '../Context/ThemeContext';
 import {getActivityDetails} from '../Utils/api/activityApi';
 import {deleteTask, updateTaskCompletion} from '../Utils/api/taskApi';
+import {GoalDTO} from './ActivityGoal';
 
 type DetailActivityDTO = {
   title: string;
@@ -31,44 +19,6 @@ type DetailActivityDTO = {
   user_device: string;
   asset_icon_name: string;
   tasks: GoalDTO[];
-};
-
-function RightAction(
-  prog: SharedValue<number>,
-  drag: SharedValue<number>,
-  deleteAction: () => void,
-) {
-  const styleAnimation = useAnimatedStyle(() => {
-    return {
-      transform: [{translateX: drag.value + 51}],
-    };
-  });
-
-  return (
-    <Reanimated.View style={styleAnimation}>
-      <TouchableOpacity onPress={deleteAction} style={styles.deleteButton}>
-        <Icon name="close" color="white" />
-      </TouchableOpacity>
-    </Reanimated.View>
-  );
-}
-
-const RenderItem = ({item, index, toggleRadio, onDelete}) => {
-  return (
-    <Swipeable
-      friction={2}
-      enableTrackpadTwoFingerGesture
-      rightThreshold={40}
-      renderRightActions={(prog, drag) =>
-        RightAction(prog, drag, () => onDelete(item))
-      }>
-      <TaskItem
-        key={`activity-task-item_${index}`}
-        item={item}
-        onToggleRadio={() => toggleRadio(item)}
-      />
-    </Swipeable>
-  );
 };
 
 const ActivityDetail = props => {
@@ -119,6 +69,11 @@ const ActivityDetail = props => {
       });
   };
 
+  function onRefresh() {
+    setIsRefreshing(true);
+    fetchActivity(route.params?.id);
+  }
+
   return (
     <Container style={{paddingHorizontal: width * 0.04}}>
       <View style={styles.header}>
@@ -138,6 +93,8 @@ const ActivityDetail = props => {
       </View>
       <FlatList
         data={detailActivity?.tasks}
+        refreshing={isRefreshing}
+        onRefresh={onRefresh}
         ListHeaderComponent={
           <View style={styles.content}>
             <Text variant="headline1" style={styles.title}>
@@ -163,7 +120,7 @@ const ActivityDetail = props => {
         }
         renderItem={({item, index}: {item: GoalDTO; index: number}) => {
           return (
-            <RenderItem
+            <SwipeableTask
               item={item}
               index={index}
               toggleRadio={toggleRadio}
@@ -183,14 +140,6 @@ const ActivityDetail = props => {
 };
 
 const styles = StyleSheet.create({
-  deleteButton: {
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 50,
-    height: 70,
-  },
-  rightAction: {width: 50, height: 50, backgroundColor: 'purple'},
   header: {
     paddingTop: 15,
   },

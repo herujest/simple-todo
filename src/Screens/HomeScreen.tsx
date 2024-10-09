@@ -1,23 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  FlatList,
-  Pressable,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
-import Reanimated, {
-  SharedValue,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
+import {FlatList, Pressable, StyleSheet, View} from 'react-native';
 import {navigate} from '.';
 import Button from '../Component/Atoms/Buttons';
 import Icon from '../Component/Atoms/Icon';
 import Text from '../Component/Atoms/Text';
 import Container from '../Component/Molecules/Container';
 import Popups, {InputGoalPopup} from '../Component/Molecules/Popups';
-import TaskItem from '../Component/Organisms/Card/TaskItem';
+import SwipeableTask from '../Component/Organisms/Card/SwipeableTask';
 import EmptyView from '../Component/Organisms/EmptyView';
 import HeaderBrand from '../Component/Organisms/Header/HeaderBrand';
 import {useTheme} from '../Context/ThemeContext';
@@ -27,44 +16,6 @@ import {
   getStandaloneTasksByDeviceId,
   updateTaskCompletion,
 } from '../Utils/api/taskApi';
-
-function RightAction(
-  prog: SharedValue<number>,
-  drag: SharedValue<number>,
-  deleteAction: () => void,
-) {
-  const styleAnimation = useAnimatedStyle(() => {
-    return {
-      transform: [{translateX: drag.value + 51}],
-    };
-  });
-
-  return (
-    <Reanimated.View style={styleAnimation}>
-      <TouchableOpacity onPress={deleteAction} style={styles.deleteButton}>
-        <Icon name="close" color="white" />
-      </TouchableOpacity>
-    </Reanimated.View>
-  );
-}
-
-const RenderItem = ({item, index, toggleRadio, onDelete}) => {
-  return (
-    <Swipeable
-      friction={2}
-      enableTrackpadTwoFingerGesture
-      rightThreshold={40}
-      renderRightActions={(prog, drag) =>
-        RightAction(prog, drag, () => onDelete(item))
-      }>
-      <TaskItem
-        key={`home-item_${index}`}
-        item={item}
-        onToggleRadio={() => toggleRadio(item)}
-      />
-    </Swipeable>
-  );
-};
 
 const HomeScreen = () => {
   const {colors, width} = useTheme();
@@ -119,6 +70,7 @@ const HomeScreen = () => {
         onRefresh={onRefresh}
         refreshing={isRefreshing}
         style={{padding: width * 0.04}}
+        contentContainerStyle={{paddingBottom: width * 0.05}}
         ListEmptyComponent={
           <EmptyView
             imageSource={require('../Assets/Images/success.png')}
@@ -137,7 +89,7 @@ const HomeScreen = () => {
           </View>
         }
         renderItem={({item, index}) => (
-          <RenderItem
+          <SwipeableTask
             item={item}
             index={index}
             toggleRadio={toggleRadio}
@@ -207,14 +159,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  deleteButton: {
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 50,
-    height: 70,
-  },
-  rightAction: {width: 50, height: 50, backgroundColor: 'purple'},
 });
 
 export default HomeScreen;
