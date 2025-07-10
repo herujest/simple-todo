@@ -3,9 +3,38 @@ import {StyleProp, ViewStyle} from 'react-native';
 import {Path, Svg} from 'react-native-svg';
 import json from '../../Assets/Fonts/selection.json';
 
-interface IconSet {
-  icons: Array<any>;
+// interface IconSet {
+//   icons: Array<any>;
+// }
+export interface IconSet {
+  IcoMoonType?: string;
+  height?: number;
+  metadata?: object;
+  preferences?: object;
+  icons: Array<{
+    icon: {
+      paths: string[];
+      attrs: any[];
+      isMulticolor: boolean;
+      isMulticolor2: boolean;
+      grid: number;
+      tags: string[];
+      colorPermutations?: Record<string, {}[] | undefined>;
+    };
+    attrs: any[];
+    properties: {
+      name: string;
+      order?: number;
+      id: number;
+      prevSize: number;
+      code: number;
+    };
+    setIdx: number;
+    setId: number;
+    iconIdx: number;
+  }>;
 }
+
 interface IconAttrs {
   fill?: string;
 }
@@ -15,41 +44,45 @@ interface IconMap {
   attrs?: Array<IconAttrs>;
 }
 
-export type IconName =
-  | 'params'
-  | 'sunrise'
-  | 'afternoon'
-  | 'sunset'
-  | 'night'
-  | 'settings-filled'
-  | 'home'
-  | 'home-filled'
-  | 'arrow-up-left2'
-  | 'arrow-up2'
-  | 'arrow-up-right2'
-  | 'arrow-right2'
-  | 'arrow-down-right2'
-  | 'arrow-down2'
-  | 'arrow-down-left2'
-  | 'arrow-left2'
-  | 'radio-checked'
-  | 'radio-unchecked'
-  | 'plus-circle'
-  | 'clock'
-  | 'settings'
-  | 'close'
-  | 'work-case'
-  | 'todo-done'
-  | 'experiment'
-  | 'education-learning'
-  | 'travel-luggage'
-  | 'clean'
-  | 'exercise-health-fitness'
-  | 'edit'
-  | 'trash-bin'
-  | 'redirect'
-  | 'handphone'
-  | 'info-square';
+// export type IconName =
+//   | 'params'
+//   | 'sunrise'
+//   | 'afternoon'
+//   | 'sunset'
+//   | 'night'
+//   | 'settings-filled'
+//   | 'home'
+//   | 'home-filled'
+//   | 'arrow-up-left2'
+//   | 'arrow-up2'
+//   | 'arrow-up-right2'
+//   | 'arrow-right2'
+//   | 'arrow-down-right2'
+//   | 'arrow-down2'
+//   | 'arrow-down-left2'
+//   | 'arrow-left2'
+//   | 'radio-checked'
+//   | 'radio-unchecked'
+//   | 'plus-circle'
+//   | 'clock'
+//   | 'settings'
+//   | 'close'
+//   | 'work-case'
+//   | 'todo-done'
+//   | 'experiment'
+//   | 'education-learning'
+//   | 'travel-luggage'
+//   | 'clean'
+//   | 'exercise-health-fitness'
+//   | 'edit'
+//   | 'trash-bin'
+//   | 'redirect'
+//   | 'handphone'
+//   | 'info-square';
+export type ExtractIconNames<T extends IconSet> =
+  T['icons'][number]['properties']['name'];
+
+export type IconName = ExtractIconNames<typeof json>;
 
 export interface IIcon extends Omit<SvgIconProps, 'iconSet' | 'name' | 'size'> {
   name: IconName;
